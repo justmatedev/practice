@@ -8,5 +8,6 @@ var StatusPermission;
 (function (StatusPermission) {
     StatusPermission[StatusPermission["ADMIN"] = 0] = "ADMIN";
     StatusPermission[StatusPermission["USER"] = 1] = "USER";
+    StatusPermission[StatusPermission["SUPORT"] = 0] = "SUPORT";
 })(StatusPermission || (StatusPermission = {}));
-console.log(StatusPermission.USER);
+console.log(StatusPermission.SUPORT);

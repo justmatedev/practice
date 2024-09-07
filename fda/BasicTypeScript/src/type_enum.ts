@@ -8,6 +8,7 @@ enum DesignColors {
 enum StatusPermission {
   ADMIN,
   USER,
+  SUPORT = 0,
 }
 
-console.log(StatusPermission.USER)
+console.log(StatusPermission.SUPORT)
