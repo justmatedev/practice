@@ -17,10 +17,13 @@ export default function Input({
   rules,
   error,
 }: InputProps) {
+  const className = `w-full border-2 rounded-md h-11 px-2 ${
+    error ? "border-red-300" : ""
+  }`
   return (
     <div>
       <input
-        className="w-full border-2 rounded-md h-11 px-2"
+        className={className}
         type={type}
         placeholder={placeholder}
         {...register(name, rules)}

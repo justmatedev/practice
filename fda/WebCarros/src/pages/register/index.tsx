@@ -15,6 +15,7 @@ import {
 } from "firebase/auth"
 import { useContext, useEffect } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
+import toast from "react-hot-toast"
 
 const schema = z.object({
   name: z.string().min(1, "Campo nome obrigatorio"),
@@ -60,6 +61,7 @@ function Register() {
         })
 
         console.log("cadastrado com sucesso")
+        toast.success("cadastrado com sucesso")
         navigate("/dashboard", { replace: true })
       })
       .catch((error) => {
