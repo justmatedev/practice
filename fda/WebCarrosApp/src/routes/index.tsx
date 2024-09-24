@@ -5,7 +5,7 @@ import Favorites from "../pages/favorites"
 
 export type StackParamList = {
   home: undefined
-  detail: undefined
+  detail: { id: string }
   favorites: undefined
 }
 const Stack = createNativeStackNavigator<StackParamList>()
