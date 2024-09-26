@@ -5,10 +5,10 @@ import {
   Text,
   View,
 } from "react-native"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Header from "../../components/header"
 import Input from "../../components/input"
-import { collection, getDocs, orderBy, query } from "firebase/firestore"
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore"
 import { db } from "../../services/firebaseConnection"
 import { CarProps } from "../../types/car.type"
 import CarItem from "../../components/carlist"
@@ -47,6 +47,59 @@ const Home = () => {
     })
   }
 
+  const debounce = (func: (...args: string[]) => void, delay: number) => {
+    let timeout: NodeJS.Timeout | null = null
+
+    return (...args: string[]) => {
+      if (timeout) {
+        clearInterval(timeout)
+      }
+      timeout = setTimeout(() => {
+        func(...args)
+      }, delay)
+    }
+  }
+
+  const handleInputChange = (text: string) => {
+    setSearchInput(text)
+    delayedApiCall(text)
+  }
+
+  const delayedApiCall = useCallback(
+    debounce(async (newText: string) => fetchSearchCar(newText), 800),
+    []
+  )
+
+  const fetchSearchCar = async (newText: string) => {
+    if (newText === "") {
+      await loadCars()
+      setSearchInput("")
+      return
+    }
+    setCars([])
+    const q = query(
+      collection(db, "cars"),
+      where("name", ">=", newText.toUpperCase()),
+      where("name", "<=", newText.toUpperCase() + "\uf8ff")
+    )
+
+    const querySnapshot = await getDocs(q)
+    let listcars = [] as CarProps[]
+    querySnapshot.forEach((doc) => {
+      listcars.push({
+        id: doc.id,
+        name: doc.data().name,
+        year: doc.data().year,
+        km: doc.data().km,
+        price: doc.data().price,
+        uid: doc.data().uid,
+        city: doc.data().city,
+        images: doc.data().images,
+      })
+    })
+    setCars(listcars)
+  }
+
   return (
     <>
       <Header />
@@ -56,7 +109,7 @@ const Home = () => {
           <Input
             placeholder="Procurando algum carro?..."
             value={searchInput}
-            onChangeText={(text) => setSearchInput(text)}
+            onChangeText={(text) => handleInputChange(text)}
           />
         </View>
 

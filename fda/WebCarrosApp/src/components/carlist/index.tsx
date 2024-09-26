@@ -15,19 +15,35 @@ import { StackParamList } from "../../routes"
 interface CarItemProps {
   data: CarProps
   widthScreen: DimensionValue
+  enableRemove?: boolean
+  removeItem?: () => Promise<void>
 }
 
-const CarItem = ({ data, widthScreen }: CarItemProps) => {
+const CarItem = ({
+  data,
+  widthScreen,
+  enableRemove = false,
+  removeItem,
+}: CarItemProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
 
   const handleNavigate = () => {
     navigation.navigate("detail", { id: data.id })
   }
 
+  const handleRemove = async () => {
+    if (!removeItem) {
+      return
+    }
+
+    await removeItem()
+  }
+
   return (
     <Pressable
       style={[styles.container, { width: widthScreen }]}
       onPress={handleNavigate}
+      onLongPress={enableRemove ? handleRemove : () => {}}
     >
       <Image
         style={styles.cover}

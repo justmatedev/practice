@@ -22,6 +22,7 @@ import Label from "./components/labels"
 import * as Linking from "expo-linking"
 import ModalBanner from "./components/modal"
 import useStorage from "../../hooks/useStorage"
+import { useToast } from "../../hooks/useToast"
 
 type RouteDetailParams = {
   detail: {
@@ -40,6 +41,7 @@ const Detail = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedImage, setSelectedImage] = useState("")
   const { saveItem } = useStorage()
+  const { showToast } = useToast()
 
   useEffect(() => {
     const loadCars = async () => {
@@ -94,6 +96,7 @@ const Detail = () => {
       return
     }
     await saveItem(car)
+    showToast("Carro favoritado", "SUCCESS")
   }
 
   if (loading) {

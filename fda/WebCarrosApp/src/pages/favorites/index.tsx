@@ -8,6 +8,7 @@ import { StackParamList } from "../../routes"
 import { CarProps } from "../../types/car.type"
 import CarItem from "../../components/carlist"
 import useStorage from "../../hooks/useStorage"
+import { useToast } from "../../hooks/useToast"
 
 const Favorites = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
@@ -15,6 +16,7 @@ const Favorites = () => {
   const [cars, setCars] = useState<CarProps[]>([])
   const { getItem, removeItem } = useStorage()
   const isFocused = useIsFocused()
+  const { showToast } = useToast()
 
   useEffect(() => {
     async function loadFavoriteCars() {
@@ -22,7 +24,14 @@ const Favorites = () => {
       setCars(listCars)
     }
     loadFavoriteCars()
-  }, [useIsFocused])
+  }, [isFocused])
+
+  const handleRemoveCar = async (id: string) => {
+    const listcars = await removeItem(id)
+    setCars(listcars)
+    showToast("Carro removido", "DEFAULT")
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -35,7 +44,14 @@ const Favorites = () => {
       <FlatList
         data={cars}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <CarItem data={item} widthScreen="100%" />}
+        renderItem={({ item }) => (
+          <CarItem
+            data={item}
+            widthScreen="100%"
+            enableRemove={true}
+            removeItem={() => handleRemoveCar(item.id)}
+          />
+        )}
         contentContainerStyle={{ paddingBottom: 14 }}
         showsVerticalScrollIndicator={false}
       />
