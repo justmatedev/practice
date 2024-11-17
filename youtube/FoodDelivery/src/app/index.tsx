@@ -8,6 +8,7 @@ import TrendingFoods from "../components/trending"
 import Restaurants from "../components/restaurants"
 import RestaurantVerticalList from "../components/list"
 
+// https://youtu.be/aABUs_L4AZg
 // npx json-server db.json
 
 const statusBarHeight = Constants.statusBarHeight
