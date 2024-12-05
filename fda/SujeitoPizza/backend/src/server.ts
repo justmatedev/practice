@@ -4,10 +4,16 @@ import cors from "cors"
 import path from "path"
 
 import { router } from "./routes"
+import fileUpload from "express-fileupload"
 
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.use(
+  fileUpload({
+    limits: { fieldSize: 50 * 1024 * 1024 },
+  })
+)
 
 app.use(router)
 
@@ -26,4 +32,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-app.listen(3333, () => console.log("server iniciado"))
+app.listen(process.env.PORT, () => console.log("server iniciado"))
