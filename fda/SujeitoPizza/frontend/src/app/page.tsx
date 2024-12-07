@@ -42,7 +42,6 @@ export default function Page() {
       console.log("deu este erro aquii", error)
     }
 
-    console.log("chegou no redirect")
     redirect("/dashboard")
   }
   return (
