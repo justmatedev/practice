@@ -41,7 +41,8 @@ export default function Page() {
         maxAge: expressTime,
         path: "/",
         httpOnly: true, // Prefira `true` se não precisar acessar o cookie no client
-        secure: process.env.NODE_ENV === "production", // HTTPS apenas em produção
+        secure: true, // HTTPS apenas em produção
+        sameSite: "none",
       })
       console.log(cookieStore)
     } catch (error) {
