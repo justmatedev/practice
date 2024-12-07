@@ -24,11 +24,12 @@ export default function SignUp() {
         password,
       })
       console.log("tudo certoooo")
-      redirect("/")
     } catch (error) {
       console.log("error")
       console.log(error)
+      return
     }
+    redirect("/")
   }
 
   return (

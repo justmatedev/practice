@@ -31,20 +31,20 @@ export default function Page() {
 
       const expressTime = 60 * 60 * 24 * 30 // 30 dias em segundos
       const cookieStore = await cookies()
-      // cookieStore.set("session", response.data.token, {
-      //   maxAge: expressTime,
-      //   path: "/",
-      //   httpOnly: false, // Prefira `true` se não precisar acessar o cookie no client
-      //   secure: process.env.NODE_ENV === "production", // HTTPS apenas em produção
-      // })
       cookieStore.set("session", response.data.token, {
         maxAge: expressTime,
         path: "/",
-        httpOnly: true, // Prefira `true` se não precisar acessar o cookie no client
-        secure: true, // HTTPS apenas em produção
-        sameSite: "none",
+        httpOnly: false, // Prefira `true` se não precisar acessar o cookie no client
+        secure: process.env.NODE_ENV === "production", // HTTPS apenas em produção
       })
-      console.log(cookieStore)
+      // cookieStore.set("session", response.data.token, {
+      //   maxAge: expressTime,
+      //   path: "/",
+      //   httpOnly: true, // Prefira `true` se não precisar acessar o cookie no client
+      //   secure: true, // HTTPS apenas em produção
+      //   sameSite: "none",
+      // })
+      // console.log(cookieStore)
     } catch (error) {
       console.log("deu este erro aquii", error)
     }
