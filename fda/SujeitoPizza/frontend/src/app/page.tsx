@@ -31,10 +31,16 @@ export default function Page() {
 
       const expressTime = 60 * 60 * 24 * 30 // 30 dias em segundos
       const cookieStore = await cookies()
+      // cookieStore.set("session", response.data.token, {
+      //   maxAge: expressTime,
+      //   path: "/",
+      //   httpOnly: false, // Prefira `true` se não precisar acessar o cookie no client
+      //   secure: process.env.NODE_ENV === "production", // HTTPS apenas em produção
+      // })
       cookieStore.set("session", response.data.token, {
         maxAge: expressTime,
         path: "/",
-        httpOnly: false, // Prefira `true` se não precisar acessar o cookie no client
+        httpOnly: true, // Prefira `true` se não precisar acessar o cookie no client
         secure: process.env.NODE_ENV === "production", // HTTPS apenas em produção
       })
       console.log(cookieStore)
