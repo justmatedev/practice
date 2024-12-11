@@ -65,7 +65,7 @@ export default function SignUp() {
             />
 
             <button type="submit" className={styles.button}>
-              Acessar
+              Cadastrar
             </button>
           </form>
 
